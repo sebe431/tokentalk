@@ -1,0 +1,151 @@
+.container {
+    width: 100%;
+    position:relative;
+}
+
+.segment {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+@media (min-width: 690px) and (orientation: landscape) {
+    .segment {
+        width: 65%;
+    }
+}
+
+.nav {
+    width: 100%;
+    position:sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/*
+    Horizontal sizes
+*/
+.w1of2, .w1of3 {
+    width: 100%;
+}
+
+@media (min-width: 1200px) and (orientation: landscape) {
+    .w1of2 {
+        float: left;
+        width:50%;
+    }
+    
+    .w1of3 {
+        float: left;
+        width:33%;
+    }
+}
+
+
+/*
+    h
+*/
+h1, h2, h3, h4, h5, h6 { margin:0; font-size: 1.25rem }
+
+@media (min-width: 690px) {
+    h1 { font-size: 5.0rem; }
+    h2 { font-size: 4.2rem; }
+    h3 { font-size: 3.6rem; }
+    h4 { font-size: 3.0rem; }
+    h5 { font-size: 2.4rem; }
+    h6 { font-size: 1.5rem; }
+}
+
+/*
+    fancy background
+*/
+.fancy-background {
+    overflow:hidden;
+    width:100%;
+}
+
+.fancy-background.fixed {
+    position: fixed;
+}
+
+.fancy-background.absolute {
+    position: absolute;
+}
+
+/*
+    Utils
+*/
+
+.full-width {
+    width:100%;
+}
+
+.full-height {
+    height:100%;
+}
+
+.border-boxed {
+    box-sizing: border-box;
+}
+
+.padded {
+    padding: 0.5rem;
+}
+
+.padded2x {
+    padding: 1rem;
+}
+
+.padded-v {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.padded-h {
+    padding-right: 0.25rem;
+    padding-left: 0.25rem;
+}
+
+.inlined {
+    display:inline-block;
+}
+
+.centered {
+    text-align: center;
+}
+
+.dir-rtl {
+    direction:rtl;
+}
+
+.dir-ltr {
+    direction:ltr;
+}
+
+/* vertically align things middle */
+.tabled {
+    display: table;
+}
+.celled-middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+a.omit {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.f-right {
+    float:right;
+}
+
+.f-left {
+    float:left;
+}
+
+.clear {
+    content: "";
+    display: table;
+    clear: both;
+}

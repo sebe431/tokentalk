@@ -1,0 +1,126 @@
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Site Properties -->
+    <title>Token Talk</title>
+    <meta name="description" content="Anonymous textboard with token ownership/smart contract verification">
+    <meta name="author" content="anon">
+    <link rel="stylesheet" href="short_landing.css">
+    <link rel="stylesheet" href="short_landing_custom.css">
+    <script src="redirectWelcome.js"></script>
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+    <noscript>This browser does not support Javascript, either that or Javscript is disabled. If it is disabled, please
+        consider enabling it if you wish to use this website.</noscript>
+    <div id="app" class="opac-empty">
+        <div class="container">
+            <div class="segment padded">
+                <div class="inlined full-width">
+                    <div class="f-left">
+                        <h5>Token Talk</h5> Because you're not alone, holding that bag.
+                    </div>
+                    <div class="f-right">
+                        Status: {{userData.status}}
+                        <hr>
+                        <button @click="register()">Register</button>
+                        <button @click="openRegistrationHelp()">?</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="container">
+            <div class="segment padded">
+                <div v-if="(!currentBoard && !currentThread)">
+                    <div v-bind:class="'padded list-border list-color-' + (index%2 + 1)" v-bind:key="board.id" v-for="(board, index) in boards">
+                        <h6><a @click.exact.prevent="goBoard(board.id)" v-bind:href="'?board=' + board.id">{{board.id}}</a>
+                        </h6>
+                        <span>{{board.desc}}</span>
+                        <hr>
+                    </div>
+                </div>
+                <div v-if="(currentBoard && !currentThread)">
+                    <div class="padded list-border list-color-1">
+                        <b><a @click.exact.prevent="goHome()" v-bind:href="'?'">home</a></b>
+                    </div>
+                    <post-box button-text="new thread" custom-placeholder="Thread text, first line will be used as a title"></post-box>
+                    <div v-bind:class="'padded list-border list-color-' + (index%2 + 1)" v-bind:key="thread.id" v-for="(thread, index) in threads">
+                        <h6 class="truncate"><a @click.exact.prevent="goThread(thread.id)" v-bind:href="'?board=' + currentBoard + '&thread=' + thread.id">{{thread.op.textTruncated}}</a>
+                        </h6>
+                        <span>by: {{thread.op.author}} | replies: {{thread.postCount}} | last bump: {{new Date(thread.bumpTime).toStringReadable()}}</span>
+                        <hr>
+                    </div>
+                    <div class="padded">
+                        Thread limit: 100, new threads after the limit will delete old threads.
+                    </div>
+                </div>
+                <div v-if="(currentBoard && currentThread)">
+                    <div class="padded list-border list-color-1">
+                        <b><a @click.exact.prevent="goHome()" v-bind:href="'?'">home</a> - <a @click.exact.prevent="goBoard(currentBoard)" v-bind:href="'?board=' + currentBoard">{{currentBoard}}</a></b>
+                    </div>
+                    <div v-bind:class="'padded list-border list-color-' + (index%2 + 1)" v-bind:key="post.postid" v-for="(post, index) in posts">
+                        <div class="full-width inlined">
+                            <div class="f-left">{{post.author}}</div>
+                            <div class="f-right">{{new Date(post.time).toStringReadable()}}</div>
+                        </div>
+                        <hr>
+                        <span class="preline">{{post.text}}</span>
+                    </div>
+                    <post-box button-text="new post" custom-placeholder="post text"></post-box>
+                    <div class="padded">
+                        Post limit: 300, new posts after the limit will stop bumping the thread.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div v-if="showPopupModal" class="modal-mask">
+                <div class="modal-wrapper" @click="showPopupModal = false">
+                    <div class="modal-container segment-smaller padded2x" @click.stop>
+                        <div v-if="popupModalData.preset == 0">
+                            <div class="inlined full-width">
+                                <h6>{{popupModalData.title}}<button class="f-right" @click="showPopupModal = false">x</button></h6>
+                            </div>
+                            <hr>
+                            <div>{{popupModalData.text}}</div>
+                        </div>
+                        <div v-if="popupModalData.preset == 1">
+                            <div class="inlined full-width">
+                                <h6>Registration help<button class="f-right" @click="showPopupModal = false">x</button></h6>
+                            </div>
+                            <hr>
+                            <div>
+                                <p><b>- Register? I thought this was an ANONYMOUS textboard?</b></p>
+                                <p>
+                                    It is, but unlike a standard anonymous board, we also need to make sure you own the address you say you own, cryptographic proof and all that.
+                                    There are no nicknames, passwords or emails. You're just as pseudo-anonymous as on any other board, and no other poster will see your address. 
+                                    The registration process is just signing a single message.
+                                </p>
+                                <p><b>- Signing a message?</b></p>
+                                <p>
+                                    It's the same as sending a transaction, but you sign a simple message instead of a protocol abiding transaction message,
+                                    so you're signing "I am bob" instead of the usual "send money to alice".
+                                    We then know for sure you are who you claim you are, and give you access to the boards you're entitled to.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="vue.min.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
